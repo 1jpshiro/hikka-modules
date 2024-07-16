@@ -55,13 +55,10 @@ class send(loader.Module):
 
         if args.split()[0] == "pm":
             await self.sendToPm(send_list)
-
         elif args.split()[0] == "group":
             await self.sendToGroup(send_list)
-
         elif args.split()[0] == "channel":
             await self.sendToChannel(send_list)
-
         else:
             await self.sendToAll(send_list)
 
