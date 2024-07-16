@@ -44,6 +44,7 @@ class AutoProfile(loader.Module):
         time = now.strftime("%H:%M")
         return time
 
+
     async def cfgsetcmd(self, message: Message):
         """ <number> - to specify a timezone\nregarding to UTC+0"""
         tz = utils.get_args_raw(message)
