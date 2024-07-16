@@ -25,7 +25,7 @@ class send(loader.Module):
         async for i in self.client.iter_dialogs():
             entity = await self.client.get_entity(i.id)
             if hasattr(entity, "broadcast"):
-                if getattr(entity, "broadcast") is Fasend_liste:
+                if getattr(entity, "broadcast") is False:
                     send_list.append(i.id)
  
     async def sendToChannel(self, send_list):
@@ -73,6 +73,6 @@ class send(loader.Module):
                 err_count += 1
                 continue
 
-        await utils.answer(q, f"<i>Message has been sended</i>\n\n<i>Couldn't send message to <u>{err_counter}</u> chats</i>")
+        await utils.answer(q, f"<i>Message has been sent</i>\n\n<i>Couldn't send message to <u>{err_counter}</u> chats</i>")
         send_list = []
         err_count = 0
