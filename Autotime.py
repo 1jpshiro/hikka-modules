@@ -58,7 +58,7 @@ class AutoProfile(loader.Module):
             [message, q]
         )
 
-    async def autoname(self, message: Message):
+    async def autonamecmd(self, message: Message):
         """ <text> - autotime in nickname | {time} must be specified in the text\nWrite without argument to turn off"""
         args = utils.get_args_raw(message)
 
@@ -85,7 +85,7 @@ class AutoProfile(loader.Module):
             await self.client(UpdateProfileRequest(first_name=text))
             await asyncio.sleep(180)
 
-    async def autobio(self, message: Message):
+    async def autobiocmd(self, message: Message):
         """ <text> - autotime in bio | {time} must be specified in the text\nWrite without argument to turn off"""
         args = utils.get_args_raw(message)
 
