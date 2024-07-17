@@ -21,7 +21,6 @@ class PrivateSaver(loader.Module):
 
     strings = {
         "name": "PrivateSave",
-        "fwd": "forwarded from",
         "start": "<emoji document_id=5444965061749644170>👨‍💻</emoji> <i>It will take a few minutes.... probably much more</i>"
     }
 
@@ -127,12 +126,14 @@ class PrivateSaver(loader.Module):
 
     async def loadcmd(self, message: Message):
         """ [limit: int] - save all the media and messages from specified channel"""
+        args = (utils.get_args_raw(message)).split()
+        limit = int(args[0]) if args[0].isdigit() else None
         yourChannel = self.config["your_channel"]
         someChannel = self.config["some_channel"]
         iterList = []
         await utils.answer(message, self.strings["start"])
 
-        async for i in self.client.iter_messages(someChannel):
+        async for i in self.client.iter_messages(someChannel, limit=limit):
             await self.checkCaption(iterList, item=i)
 
         iterList = iterList[::-1]
