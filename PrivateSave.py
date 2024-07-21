@@ -5,7 +5,7 @@
 # meta developer: 猫ちゃん
 
 from .. import loader, utils
-from telethon.tl.functions.channels import ToggleSignaturesRequest)
+from telethon.tl.functions.channels import ToggleSignaturesRequest
 from telethon.tl.types import (
     Message,
     MessageMediaUnsupported,
