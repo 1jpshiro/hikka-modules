@@ -155,7 +155,7 @@ class PrivateImitator(loader.Module):
         title = entity.chats[0].title
         if entity.full_chat.about != "":
             bio = entity.full_chat.about
-        photos = await self.client.get_profile_photos(item)
+        photos = await self.client.get_profile_photos(someChannel)
         if len(photos) > 0:
             for i in photos:
                 photo.append(i)
