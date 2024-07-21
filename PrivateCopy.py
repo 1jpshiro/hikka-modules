@@ -27,7 +27,7 @@ import asyncio
 import io
 
 class PrivateImitator(loader.Module):
-    """Saves a messages and media from restricted channels"""
+    """Imitates someone else's channel with yours"""
 
     strings = {
         "name": "PrivateCopy",
@@ -134,7 +134,7 @@ class PrivateImitator(loader.Module):
         return iterList
 
 
-    async def loadcmd(self, message: Message):
+    async def imitatecmd(self, message: Message):
         """ [limit: int] - save all the media and messages from specified channel"""
         args = (utils.get_args_raw(message)).split()
         limit = int(args[0]) if args[0].isdigit() else None
