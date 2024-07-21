@@ -152,7 +152,7 @@ class PrivateImitator(loader.Module):
         iterList = []
         photo = []
         entity = await self.client(GetFullChannelRequest(someChannel))
-        title = entity.full_chat.chats[0].title
+        title = entity.chats[0].title
         if entity.full_chat.about != "":
             bio = entity.full_chat.about
         photos = await self.client.get_profile_photos(item)
