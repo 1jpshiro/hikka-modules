@@ -19,7 +19,7 @@ import asyncio
 import io
 
 class PrivateSaver(loader.Module):
-    """Saves a messages and media from restricted channels"""
+    """Saves messages and media from private channels"""
 
     strings = {
         "name": "PrivateSave",
@@ -126,7 +126,7 @@ class PrivateSaver(loader.Module):
         return iterList
 
 
-    async def loadcmd(self, message: Message):
+    async def psavecmd(self, message: Message):
         """ [limit: int] - save all the media and messages from specified channel"""
         args = (utils.get_args_raw(message)).split()
         limit = int(args[0]) if args[0].isdigit() else None
