@@ -133,8 +133,8 @@ class PrivateSaver(loader.Module):
         yourChannel = self.config["your_channel"]
         someChannel = self.config["some_channel"]
         if not all(isinstance(i, Channel) for i in [
-            (await self.client.get_entity(yourChannel),
-            (await self.client.get_entity(someChannel)
+            (await self.client.get_entity(yourChannel)),
+            (await self.client.get_entity(someChannel))
         ]):
             await utils.answer(message, "<i>Please specify a channel ID</i>")
             return
