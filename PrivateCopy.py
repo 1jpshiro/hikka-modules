@@ -27,7 +27,7 @@ import asyncio
 import io
 
 class PrivateImitator(loader.Module):
-    """Imitates someone else's channel with yours"""
+    """Imitates someone else's channel with yours\nMake sure your channel doesn't include photos before using a module otherwise others will be overlayed with them"""
 
     strings = {
         "name": "PrivateCopy",
