@@ -19,7 +19,7 @@ import asyncio
 import io
 
 class PrivateSaver(loader.Module):
-    """Saves messages and media from private channels"""
+    """Saves messages and media from private channels where it's forbidden"""
 
     strings = {
         "name": "PrivateSave",
