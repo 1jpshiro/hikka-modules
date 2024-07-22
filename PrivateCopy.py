@@ -162,21 +162,24 @@ class PrivateImitator(loader.Module):
 
         await utils.answer(message, self.strings["start"])
 
-        await self.client(EditChatAboutRequest(
-            yourChannel,
-            bio
-        ))
-        await self.client(EditChatTitleRequest(
-            yourChannel,
-            title
-        ))
-        if len(photos) > 0:
-            for i in photo:
-                await self.client(EditPhotoRequest(
-                    yourChannel,
-                    i
-                ))
-        await self.client(ToggleSignaturesRequest(yourChannel, enabled=True))
+        try:
+            await self.client(EditChatAboutRequest(
+                yourChannel,
+                bio
+            ))
+            await self.client(EditChatTitleRequest(
+                yourChannel,
+                title
+            ))
+            if len(photos) > 0:
+                for i in photo:
+                    await self.client(EditPhotoRequest(
+                        yourChannel,
+                        i
+                    ))
+            await self.client(ToggleSignaturesRequest(yourChannel, enabled=True))
+        except:
+            pass
 
         async for i in self.client.iter_messages(someChannel, limit=limit):
             await self.checkData(iterList, item=i)
