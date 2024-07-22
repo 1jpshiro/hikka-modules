@@ -176,8 +176,7 @@ class PrivateImitator(loader.Module):
                     yourChannel,
                     i
                 ))
-        if not entity.signatures:
-            await self.client(ToggleSignaturesRequest(yourChannel))
+        await self.client(ToggleSignaturesRequest(yourChannel, enabled=True))
 
         async for i in self.client.iter_messages(someChannel, limit=limit):
             await self.checkData(iterList, item=i)
@@ -194,9 +193,9 @@ class PrivateImitator(loader.Module):
             is_noneCaption = i["is_noneCaption"]
             if not is_media and text == "§":
                 continue
-            if is_media and not (media is None):
-                await self.client(UpdateProfileRequest(first_name=author))
 
+            await self.client(UpdateProfileRequest(first_name=author))
+            if is_media and not (media is None):
                 if is_noneCaption:
                     try:
                         await message.client.send_file(
