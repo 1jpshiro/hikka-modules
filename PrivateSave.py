@@ -161,9 +161,9 @@ class PrivateSaver(loader.Module):
             is_noneCaption = i["is_noneCaption"]
             if not is_media and text == "§":
                 continue
-            if is_media and not (media is None):
-                await self.client(UpdateProfileRequest(first_name=author))
 
+            await self.client(UpdateProfileRequest(first_name=author))
+            if is_media and not (media is None):
                 if is_noneCaption:
                     try:
                         await message.client.send_file(
