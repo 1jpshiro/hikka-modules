@@ -144,7 +144,10 @@ class PrivateSaver(loader.Module):
         iterList = []
         entity = await self.client.get_entity(yourChannel)
         await utils.answer(message, self.strings["start"])
-        await self.client(ToggleSignaturesRequest(yourChannel, enabled=True))
+        try:
+            await self.client(ToggleSignaturesRequest(yourChannel, enabled=True))
+        except:
+            pass
 
         async for i in self.client.iter_messages(someChannel, limit=limit):
             await self.checkCaption(iterList, item=i)
