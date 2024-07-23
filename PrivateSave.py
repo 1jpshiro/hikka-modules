@@ -42,7 +42,7 @@ class PrivateSaver(loader.Module):
             )
         )
 
-    async def checkCaption(self, iterList, item):
+    async def checkData(self, iterList, item):
         is_poll = False
         is_ignore = False
         is_media = True if not (item.media is None) else False
@@ -150,7 +150,7 @@ class PrivateSaver(loader.Module):
             pass
 
         async for i in self.client.iter_messages(someChannel, limit=limit):
-            await self.checkCaption(iterList, item=i)
+            await self.checkData(iterList, item=i)
 
         iterList = iterList[::-1]
         for i in iterList:
