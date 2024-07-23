@@ -146,7 +146,7 @@ class PrivateSaver(loader.Module):
         except:
             pass
 
-        async for i in self.client.iter_messages(someChannel, limit=limit):
+        async for i in self.client.iter_messages(someChannel):
             await self.checkData(iterList, item=i)
 
         iterList = iterList[::-1]
