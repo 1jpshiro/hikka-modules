@@ -133,8 +133,11 @@ class PrivateImitator(loader.Module):
 
 
     async def imitatecmd(self, message: Message):
-        """ - save all the media and messages from specified channel"""
+        """ [limit: int] - save all the media and messages from specified channel"""
         args = (utils.get_args_raw(message)).split()
+        limit = None
+        if len(args) > 0:
+            limit = int(args[0]) if args[0].isdigit() else None
         yourChannel = self.config["your_channel"]
         someChannel = self.config["some_channel"]
         if not all(isinstance(i, Channel) for i in [
