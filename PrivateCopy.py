@@ -224,7 +224,7 @@ class PrivateImitator(loader.Module):
                             text
                         ))
                     )
-                await asyncio.sleep(20)
+                await asyncio.sleep(10)
             else:
                 await message.client.send_message(
                     yourChannel,
@@ -233,5 +233,5 @@ class PrivateImitator(loader.Module):
                         text
                     ))
                 )
-                await asyncio.sleep(20)
+                await asyncio.sleep(10)
         await utils.answer(message, "<emoji document_id=5233638613358486264>🚗</emoji> <b>Done</b>")
