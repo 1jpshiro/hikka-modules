@@ -5,14 +5,12 @@
 # meta developer: 猫ちゃん
 
 from .. import loader, utils
-from telethon.tl.functions.messages import (
-    EditChatTitleRequest,
-    EditChatAboutRequest
-)
+from telethon.tl.functions.messages import EditChatAboutRequest
 from telethon.tl.functions.channels import (
     ToggleSignaturesRequest,
     EditPhotoRequest,
-    GetFullChannelRequest
+    GetFullChannelRequest,
+    EditTitleRequest
 )
 from telethon.tl.types import (
     Message,
@@ -167,7 +165,7 @@ class PrivateImitator(loader.Module):
                 yourChannel,
                 bio
             ))
-            await self.client(EditChatTitleRequest(
+            await self.client(EditTitleRequest(
                 yourChannel,
                 title
             ))
