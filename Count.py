@@ -54,7 +54,7 @@ class Count(loader.Module):
                     "callback": self.back
                 }
             ],
-            disable_privacy=True
+            disable_security=True
         )
 
 
@@ -78,5 +78,6 @@ class Count(loader.Module):
                     "text": "Click",
                     "callback": self.back
                 }
-            ]
+            ],
+            disable_security=True
         )
