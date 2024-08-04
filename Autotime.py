@@ -5,7 +5,7 @@
 # meta developer: 猫ちゃん
 
 import asyncio
-from telethon.tl.functions.accounts import UpdateProfileRequest
+from telethon.tl.functions.account import UpdateProfileRequest
 from telethon.utils import get_display_name
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import Message
