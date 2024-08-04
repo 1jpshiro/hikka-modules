@@ -74,8 +74,8 @@ class AutoProfile(loader.Module):
         return
 
         if "{time}" not in args:
-        await utils.answer(message, self.strings["no_time"])
-        return
+            await utils.answer(message, self.strings["no_time"])
+            return
 
         self.name_on = True
         await message.delete()
