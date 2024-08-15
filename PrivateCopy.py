@@ -16,6 +16,7 @@ from telethon.tl.types import (
     Message,
     MessageMediaUnsupported,
     MessageMediaPoll,
+    MessageMediaGiveaway,
     Channel,
     Chat,
     User
@@ -52,7 +53,7 @@ class PrivateImitator(loader.Module):
         is_poll = False
         is_ignore = False
         is_media = True if not (item.media is None) else False
-        if is_media and isinstance(item.media, (MessageMediaUnsupported, MessageMediaPoll)):
+        if is_media and isinstance(item.media, (MessageMediaUnsupported, MessageMediaPoll, MessageMediaGiveaway)):
             is_ignore = True
         try:
             text = item.text
@@ -147,16 +148,17 @@ class PrivateImitator(loader.Module):
             await utils.answer(message, "<i>Please specify a channel ID</i>")
             return
 
+        initName = (await self.client.get_entity(self.tg_id)).first_name
         iterList = []
         photo = []
         entity = await self.client(GetFullChannelRequest(someChannel))
         title = entity.chats[0].title
-        if entity.full_chat.about != "":
-            bio = entity.full_chat.about
+        bio = entity.full_chat.about
         photos = await self.client.get_profile_photos(someChannel)
         if len(photos) > 0:
             for i in photos:
                 photo.append(i)
+        photo = photo[::-1]
 
         await utils.answer(message, self.strings["start"])
 
@@ -234,4 +236,5 @@ class PrivateImitator(loader.Module):
                     ))
                 )
                 await asyncio.sleep(10)
+        await self.client(UpdateProfileRequest(first_name=initName))
         await utils.answer(message, "<emoji document_id=5233638613358486264>🚗</emoji> <b>Done</b>")
