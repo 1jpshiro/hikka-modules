@@ -1,8 +1,8 @@
 Autotime
-Send
-PrivateSave
-PrivateCopy
-Stealer
-Timer
-Count
+Counter
 PMstat
+Private_channel_copy
+Private_channel_save
+Sender
+Sticker_stealer
+Timer
