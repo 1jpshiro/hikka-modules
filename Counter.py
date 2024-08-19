@@ -9,9 +9,9 @@ from telethon.tl.types import Message
 from ..inline.types import InlineCall
 import asyncio
 
-name = "Counter"
+NAME = "Counter"
 
-class Count(loader.Module):
+class Counter(loader.Module):
     """InlineCounter"""
 
     strings = {
@@ -29,21 +29,21 @@ class Count(loader.Module):
             return
 
         if "-u" in args:
-            self.db.set(name, "u", [])
+            self.db.set(NAME, "u", [])
         if "-c" in args:
-            self.db.set(name, "c", 0)
+            self.db.set(NAME, "c", 0)
         await message.delete()
         return
 
     async def countcmd(self, message: Message):
         """ - creates an inline button for counting a presses"""
-        if not self.db.get(name, "c"):
-            self.db.set(name, "c", 0)
+        if not self.db.get(NAME, "c"):
+            self.db.set(NAME, "c", 0)
 
-        if not self.db.get(name, "u"):
-            self.db.set(name, "u", [])
+        if not self.db.get(NAME, "u"):
+            self.db.set(NAME, "u", [])
 
-        q = self.db.get(name, "c")
+        q = self.db.get(NAME, "c")
 
         await self.inline.form(
             text=self.strings["count"].format(q),
@@ -60,16 +60,16 @@ class Count(loader.Module):
 
     async def back(self, call: InlineCall):
         id = call.from_user.id
-        if id in self.db.get(name, "u"):
+        if id in self.db.get(NANE, "u"):
             return
 
-        q = self.db.get(name, "c")
+        q = self.db.get(NAME, "c")
         q = q + 1
-        self.db.set(name, "c", q)
+        self.db.set(NAME, "c", q)
 
-        d = self.db.get(name, "u")
+        d = self.db.get(NAME, "u")
         d.append(id)
-        self.db.set(name, "u", d)
+        self.db.set(NAME, "u", d)
 
         await call.edit(
             text=self.strings["count"].format(q),
