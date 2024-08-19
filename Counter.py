@@ -2,7 +2,7 @@
 #
 # 🔒      Licensed under the GNU AGPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-# meta developer: 猫ちゃん
+# meta developer: 猫ちゃん(@shiro_hikka)
 
 from .. import loader, utils
 from telethon.tl.types import Message
@@ -22,8 +22,8 @@ class Count(loader.Module):
     async def cresetcmd(self, message: Message):
         """ [-u] [-c] - reset counter\n-u (users list) -c (counts list)"""
         args = (utils.get_args_raw(message)).split()
-        if any(i not in ["-u", "-c"] for i in args):
-            await utils.answer(message, "<b>Error</b>")
+        if all(i not in ["-u", "-c"] for i in args):
+            await utils.answer(message, "<b>Incorrect flag</b>")
             await asyncio.sleep(4)
             await message.delete()
             return
