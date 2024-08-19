@@ -19,11 +19,11 @@ from telethon.tl.functions.account import UpdateProfileRequest
 import asyncio
 import io
 
-class PrivateSaver(loader.Module):
+class ChannelSaver(loader.Module):
     """Saves messages and media from private channels where it's forbidden"""
 
     strings = {
-        "name": "PrivateSave",
+        "name": "ChannelSaver",
         "start": "<emoji document_id=5444965061749644170>👨‍💻</emoji> <i>It will take a few minutes.... probably much more</i>",
         "fwd": "forwarded from"
     }
