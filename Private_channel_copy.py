@@ -109,7 +109,7 @@ class PrivateImitator(loader.Module):
                     else "Unknown"
                 )
                 name_id = None
-                
+
         else:
             name = None
             name_id = None
@@ -132,7 +132,6 @@ class PrivateImitator(loader.Module):
         }
         iterList.append(_dict)
         return iterList
-
 
     async def imitatecmd(self, message: Message):
         """ [limit: int] - save all the media and messages from specified channel"""
