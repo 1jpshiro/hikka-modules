@@ -8,11 +8,11 @@ from .. import utils, loader
 from telethon.tl.types import Message
 import asyncio
 
-class send(loader.Module):
+class Sender(loader.Module):
     """Massively sending message to some kind of chat"""
 
     strings = {
-        "name": "Massive sending"
+        "name": "Sender"
     }
 
     async def sendToPm(self, send_list):
