@@ -192,7 +192,7 @@ class PrivateSaver(loader.Module):
                         yourChannel,
                         media,
                         caption="".join((
-                            f"<b>{self.strings['fwd'] <a href='tg://user?id={name_id}'>{name}</a>:</b>\n\n" if not (name_id is None) else f"<b>{self.strings['fwd'] {name}:</b>\n\n" if not (name is None) else "",
+                            f"<b>{self.strings['fwd']} <a href='tg://user?id={name_id}'>{name}</a>:</b>\n\n" if not (name_id is None) else f"<b>{self.strings['fwd']} {name}:</b>\n\n" if not (name is None) else "",
                             text
                         ))
                     )
