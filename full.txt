@@ -1,8 +1,8 @@
-Autotime
-Counter
-PMstat
-Private_channel_copy
-Private_channel_save
-Sender
-Sticker_stealer
-Timer
+Autotime.py
+Counter.py
+PMstat.py
+Private_channel_copy.py
+Private_channel_save.py
+Sender.py
+Sticker_stealer.py
+Timer.py
