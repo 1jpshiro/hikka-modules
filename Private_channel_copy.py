@@ -25,11 +25,11 @@ from telethon.tl.functions.account import UpdateProfileRequest
 import asyncio
 import io
 
-class PrivateImitator(loader.Module):
+class ChannelImitator(loader.Module):
     """Imitates someone else's channel with your one\nMake sure your channel doesn't include photos before using a module otherwise others will be overlayed with them"""
 
     strings = {
-        "name": "PrivateCopy",
+        "name": "ChannelImitator",
         "start": "<emoji document_id=5444965061749644170>👨‍💻</emoji> <i>It will take a few minutes.... probably much more</i>",
         "fwd": "forwarded from"
     }
