@@ -14,11 +14,11 @@ import re
 import datetime
 from .. import loader, utils
 
-class AutoProfile(loader.Module):
+class Autotime(loader.Module):
     """Automatic stuff for your profile"""
 
     strings = {
-        "name": "AutoProfile",
+        "name": "Autotime",
         "no_time": "You didn't specify a {time}",
         "cfg": "Positive or negative integer from -12 to 12"
     }
