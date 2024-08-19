@@ -2,7 +2,7 @@
 #
 # 🔒      Licensed under the GNU AGPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-# meta developer: 猫ちゃん
+# meta developer: 猫ちゃん(@shiro_hikka)
 
 import asyncio
 from telethon.tl.functions.account import UpdateProfileRequest
@@ -30,7 +30,8 @@ class AutoProfile(loader.Module):
             loader.ConfigValue(
                 "timezone",
                 "0",
-                lambda: self.strings['cfg']
+                lambda: self.strings['cfg'],
+                validator=loader.validators.Integer()
             )
         )
 
