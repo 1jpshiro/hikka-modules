@@ -2,7 +2,7 @@
 #
 # 🔒      Licensed under the GNU AGPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-# meta developer: 猫ちゃん
+# meta developer: 猫ちゃん(@shiro_hikka)
 
 from .. import loader, utils
 from telethon.tl.types import Message
@@ -61,13 +61,15 @@ class Stealer(loader.Module):
         await utils.answer(message, "<i>....</i>")
         reply = await message.get_reply_message()
         bot = "Stickers"
+
         dict_cfg = {
             1: self.config["emoji"],
             2: self.config["emoji"],
             3: self.config["vs"],
             4: self.config["ss"]
         }
-        _dict = {
+
+        dict_type = {
             1: "An emoji",
             2: "An emoji",
             3: "A sticker",
@@ -83,17 +85,20 @@ class Stealer(loader.Module):
             await resp.delete()
 
             a = self.checkType(reply, message)
-            if any(a == i for i in [1, 2]):
-                send = await bot.send_message(self.config['emoji'])
-            elif a == 3:
-                send = await bot.send_message(self.config['vs'])
-            elif a == 4:
-                send = await bot.send_message(self.config['ss'])
-            else:
-                await utils.answer(
-                    message,
-                    self.strings["incorrect"]
-                )
+
+            match a:
+                case 1 | 2:
+                    send = await bot.send_message(self.config['emoji'])
+                case 3:
+                    send = await bot.send_message(self.config['vs'])
+                case 4:
+                    send = await bot.send_message(self.config['ss'])
+                case _:
+                    await utils.answer(
+                        message,
+                        self.strings["incorrect"]
+                    )
+
                 resp = await bot.get_response()
                 await resp.delete()
                 return
@@ -102,26 +107,28 @@ class Stealer(loader.Module):
             if resp.text == "Не выбран набор стикеров.":
                 await utils.answer(
                     message,
-                    f"<i>Create {_dict[a].lower()} pack with public name</i> <b>{dict_cfg[a]}</b>"
+                    f"<i>Create {dict_type[a].lower()} pack with public name</i> <b>{dict_cfg[a]}</b>"
                 )
                 await resp.delete()
                 await send.delete()
                 return
+
             await asyncio.sleep(1)
             await send.delete()
             await resp.delete()
 
-            if a == 1:
-                t = reply.message
-                _send = reply
-            elif a == 2:
-                tt = message.reply_to
-                t = tt.quote_text
-                t_ = tt.quote_entities[0].document_id
-                _send = f"<emoji document_id={t_}>{t}</emoji>"
-            else:
-                t = reply.media.document.attributes[1].alt
-                _send = reply
+            match a:
+                case 1:
+                    emoji = reply.message
+                    _send = reply
+                case 2:
+                    tt = message.reply_to
+                    emoji = tt.quote_text
+                    t = tt.quote_entities[0].document_id
+                    _send = f"<emoji document_id={t}>{emoji}</emoji>"
+                case _:
+                    emoji = reply.media.document.attributes[1].alt
+                    _send = reply
 
             send = await bot.send_message(_send)
             resp = await bot.get_response()
@@ -129,7 +136,7 @@ class Stealer(loader.Module):
             await send.delete()
             await resp.delete()
 
-            send = await bot.send_message(t)
+            send = await bot.send_message(emoji)
             resp = await bot.get_response()
             await asyncio.sleep(1)
             await send.delete()
@@ -137,5 +144,5 @@ class Stealer(loader.Module):
 
             await utils.answer(
                 message,
-                f"<b>{_dict[a]} has been added</b>"
+                f"<b>{dict_type[a]} has been added</b>"
             )
