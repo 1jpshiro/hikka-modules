@@ -9,7 +9,7 @@ from telethon.tl.types import Message
 from ..inline.types import InlineCall
 import asyncio
 
-name = "Count"
+name = "Counter"
 
 class Count(loader.Module):
     """InlineCounter"""
