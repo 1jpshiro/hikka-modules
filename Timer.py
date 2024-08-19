@@ -2,7 +2,7 @@
 #
 # 🔒      Licensed under the GNU AGPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-# meta developer: 猫ちゃん
+# meta developer: 猫ちゃん(@shiro_hikka)
 
 from .. import loader, utils
 from telethon.tl.types import Message
@@ -23,7 +23,7 @@ class Timer(loader.Module):
                 args.remove(i)
 
         for i in args:
-            parsed[i[-1]] = int(re.sub(r"[^a-zA-Z0-9]", "", i)[:-1])
+            parsed[i[-1]] = int(re.sub(r"[^0-9]", "", i))
         return parsed
 
     async def timercmd(self, message: Message):
