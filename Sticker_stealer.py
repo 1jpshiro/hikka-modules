@@ -8,11 +8,11 @@ from .. import loader, utils
 from telethon.tl.types import Message
 import asyncio
 
-class Stealer(loader.Module):
+class StickerStealer(loader.Module):
     """Emoji/sticker stealer"""
 
     strings = {
-        "name": "Stealer",
+        "name": "StickerStealer",
         "incorrect": "<emoji document_id=5231302159739395058>🔒</emoji> <i>It's not a sticker or emoji</i>"
     }
 
