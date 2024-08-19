@@ -214,7 +214,7 @@ class PrivateImitator(loader.Module):
                     try:
                         await message.client.send_message(
                             yourChannel,
-                            f"↑ <b>forwarded from <a href='tg://user?id={name_id}'>{name}</a></b>" if not (name_id is None) else f"<b>{self.strings['fwd']} {name}</b>" if not (name is None) else ""
+                            f"↑ <b>{self.strings['fwd']} <a href='tg://user?id={name_id}'>{name}</a></b>" if not (name_id is None) else f"<b>{self.strings['fwd']} {name}</b>" if not (name is None) else ""
                         )
                     except:
                         pass
@@ -223,7 +223,7 @@ class PrivateImitator(loader.Module):
                         yourChannel,
                         media,
                         caption="".join((
-                            f"<b>forwarded from <a href='tg://user?id={name_id}'>{name}</a>:</b>\n\n" if not (name_id is None) else f"<b>{name}:</b>\n\n" if not (name is None) else "",
+                            f"<b>{self.strings['fwd']} <a href='tg://user?id={name_id}'>{name}</a>:</b>\n\n" if not (name_id is None) else f"{self.strings['fwd']} <b>{name}:</b>\n\n" if not (name is None) else "",
                             text
                         ))
                     )
@@ -232,7 +232,7 @@ class PrivateImitator(loader.Module):
                 await message.client.send_message(
                     yourChannel,
                     "".join((
-                        f"<b>forwarded from <a href='tg://user?id={name_id}'>{name}</a>:</b>\n\n" if not (name_id is None) else f"<b>{self.strings['fwd']} {name}:</b>\n\n" if not (name is None) else "",
+                        f"<b>{self.strings['fwd']} <a href='tg://user?id={name_id}'>{name}</a>:</b>\n\n" if not (name_id is None) else f"<b>{self.strings['fwd']} {name}:</b>\n\n" if not (name is None) else "",
                         text
                     ))
                 )
