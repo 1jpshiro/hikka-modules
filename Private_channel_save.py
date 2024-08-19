@@ -2,7 +2,7 @@
 #
 # 🔒      Licensed under the GNU AGPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-# meta developer: 猫ちゃん
+# meta developer: 猫ちゃん(@shiro_hikka)
 
 from .. import loader, utils
 from telethon.tl.functions.channels import ToggleSignaturesRequest
@@ -24,7 +24,8 @@ class PrivateSaver(loader.Module):
 
     strings = {
         "name": "PrivateSave",
-        "start": "<emoji document_id=5444965061749644170>👨‍💻</emoji> <i>It will take a few minutes.... probably much more</i>"
+        "start": "<emoji document_id=5444965061749644170>👨‍💻</emoji> <i>It will take a few minutes.... probably much more</i>",
+        "fwd": "forwarded from"
     }
 
     def __init__(self):
@@ -144,7 +145,6 @@ class PrivateSaver(loader.Module):
 
         initName = (await self.client.get_entity(self.tg_id)).first_name
         iterList = []
-        entity = await self.client.get_entity(yourChannel)
         await utils.answer(message, self.strings["start"])
         try:
             await self.client(ToggleSignaturesRequest(yourChannel, enabled=True))
@@ -183,7 +183,7 @@ class PrivateSaver(loader.Module):
                     try:
                         await message.client.send_message(
                             yourChannel,
-                            f"↑<b> forwarded from' <a href='tg://user?id={name_id}'>{name}</a>:</b>\n\n" if not (name_id is None) else f"<b>{self.strings['fwd']} {name}:</b>\n\n" if not (name is None) else ""
+                            f"↑ <b>{self.strings['fwd']} <a href='tg://user?id={name_id}'>{name}</a></b>" if not (name_id is None) else f"<b>{self.strings['fwd']} {name}</b>" if not (name is None) else ""
                         )
                     except:
                         pass
@@ -192,7 +192,7 @@ class PrivateSaver(loader.Module):
                         yourChannel,
                         media,
                         caption="".join((
-                            f"<b>forwarded from' <a href='tg://user?id={name_id}'>{name}</a>:</b>\n\n" if not (name_id is None) else f"<b>{name}:</b>\n\n" if not (name is None) else "",
+                            f"<b>{self.strings['fwd'] <a href='tg://user?id={name_id}'>{name}</a>:</b>\n\n" if not (name_id is None) else f"<b>{self.strings['fwd'] {name}:</b>\n\n" if not (name is None) else "",
                             text
                         ))
                     )
@@ -201,7 +201,7 @@ class PrivateSaver(loader.Module):
                 await message.client.send_message(
                     yourChannel,
                     "".join((
-                        f"<b>forwarded from <a href='tg://user?id={name_id}'>{name}</a>:</b>\n\n" if not (name_id is None) else f"<b>{self.strings['fwd']} {name}:</b>\n\n" if not (name is None) else "",
+                        f"<b>{self.strings['fwd']} <a href='tg://user?id={name_id}'>{name}</a>:</b>\n\n" if not (name_id is None) else f"<b>{self.strings['fwd']} {name}:</b>\n\n" if not (name is None) else "",
                         text
                     ))
                 )
