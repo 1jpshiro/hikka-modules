@@ -2,7 +2,7 @@
 #
 # 🔒      Licensed under the GNU AGPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-# meta developer: 猫ちゃん
+# meta developer: 猫ちゃん(@shiro_hikka)
 
 from .. import loader, utils
 from telethon.tl.types import Message
@@ -31,18 +31,15 @@ class PMstat(loader.Module):
         msgsList = []
 
         async for i in self.client.iter_messages(chat.id):
-            msgList.append(i)
-
-        if "-p" in args:
-            for i in msgList:
-                if i.from_id != self.tg_id:
-                    count += 1
-        else:
-            for j in _r:
-                if j.from_id == self.tg_id:
-                    count += 1
+            match "-p" in args:
+                case True:
+                    if i.from_id != self.tg_id:
+                        msgsList.append(i)
+                case _:
+                    if i.from_id == self.tg_id:
+                        msgsList.append(i)
 
         await message.client.send_message(
             s,
-            self.strings["q"].format(count, who)
+            self.strings["q"].format(len(msgsList), who)
         )
