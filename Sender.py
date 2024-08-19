@@ -2,7 +2,7 @@
 #
 # 🔒      Licensed under the GNU AGPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-# meta developer: 猫ちゃん
+# meta developer: 猫ちゃん(@shiro_hikka)
 
 from .. import utils, loader
 from telethon.tl.types import Message
@@ -53,14 +53,15 @@ class send(loader.Module):
 	
         q = await utils.answer(message, "<i>Sending...</i>")
 
-        if args.split()[0] == "pm":
-            await self.sendToPm(send_list)
-        elif args.split()[0] == "group":
-            await self.sendToGroup(send_list)
-        elif args.split()[0] == "channel":
-            await self.sendToChannel(send_list)
-        else:
-            await self.sendToAll(send_list)
+        match args.split()[0]:
+            case "pm":
+                await self.sendToPm(send_list)
+            case "group":
+                await self.sendToGroup(send_list)
+            case "channel":
+                await self.sendToChannel(send_list)
+            case _:
+                await self.sendToAll(send_list)
 
         for i in send_list:
             try:
