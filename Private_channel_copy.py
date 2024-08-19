@@ -2,7 +2,7 @@
 #
 # 🔒      Licensed under the GNU AGPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-# meta developer: 猫ちゃん
+# meta developer: 猫ちゃん(@shiro_hikka)
 
 from .. import loader, utils
 from telethon.tl.functions.messages import EditChatAboutRequest
@@ -26,11 +26,12 @@ import asyncio
 import io
 
 class PrivateImitator(loader.Module):
-    """Imitates someone else's channel with yours\nMake sure your channel doesn't include photos before using a module otherwise others will be overlayed with them"""
+    """Imitates someone else's channel with your one\nMake sure your channel doesn't include photos before using a module otherwise others will be overlayed with them"""
 
     strings = {
         "name": "PrivateCopy",
-        "start": "<emoji document_id=5444965061749644170>👨‍💻</emoji> <i>It will take a few minutes.... probably much more</i>"
+        "start": "<emoji document_id=5444965061749644170>👨‍💻</emoji> <i>It will take a few minutes.... probably much more</i>",
+        "fwd": "forwarded from"
     }
 
     def __init__(self):
@@ -213,7 +214,7 @@ class PrivateImitator(loader.Module):
                     try:
                         await message.client.send_message(
                             yourChannel,
-                            f"↑<b> forwarded from' <a href='tg://user?id={name_id}'>{name}</a>:</b>\n\n" if not (name_id is None) else f"<b>{self.strings['fwd']} {name}:</b>\n\n" if not (name is None) else ""
+                            f"↑ <b>forwarded from <a href='tg://user?id={name_id}'>{name}</a></b>" if not (name_id is None) else f"<b>{self.strings['fwd']} {name}</b>" if not (name is None) else ""
                         )
                     except:
                         pass
@@ -222,7 +223,7 @@ class PrivateImitator(loader.Module):
                         yourChannel,
                         media,
                         caption="".join((
-                            f"<b>forwarded from' <a href='tg://user?id={name_id}'>{name}</a>:</b>\n\n" if not (name_id is None) else f"<b>{name}:</b>\n\n" if not (name is None) else "",
+                            f"<b>forwarded from <a href='tg://user?id={name_id}'>{name}</a>:</b>\n\n" if not (name_id is None) else f"<b>{name}:</b>\n\n" if not (name is None) else "",
                             text
                         ))
                     )
