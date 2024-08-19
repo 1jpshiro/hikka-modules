@@ -15,7 +15,7 @@ class Count(loader.Module):
     """InlineCounter"""
 
     strings = {
-        "name": "Count",
+        "name": "Counter",
         "count": "Counter: {}"
     }
 
