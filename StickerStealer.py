@@ -99,9 +99,9 @@ class StickerStealer(loader.Module):
                         self.strings["incorrect"]
                     )
 
-                resp = await bot.get_response()
-                await resp.delete()
-                return
+                    resp = await bot.get_response()
+                    await resp.delete()
+                    return
 
             resp = await bot.get_response()
             if resp.text == "Не выбран набор стикеров.":
