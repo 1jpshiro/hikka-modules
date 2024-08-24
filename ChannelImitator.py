@@ -16,7 +16,6 @@ from telethon.tl.types import (
     Message,
     MessageMediaUnsupported,
     MessageMediaPoll,
-    MessageMediaGiveaway,
     Channel,
     Chat,
     User
@@ -54,7 +53,7 @@ class ChannelImitator(loader.Module):
         is_poll = False
         is_ignore = False
         is_media = True if not (item.media is None) else False
-        if is_media and isinstance(item.media, (MessageMediaUnsupported, MessageMediaPoll, MessageMediaGiveaway)):
+        if is_media and (isinstance(item.media, (MessageMediaUnsupported, MessageMediaPoll)) or hasattr(item.media, "months")):
             is_ignore = True
         try:
             text = item.text
