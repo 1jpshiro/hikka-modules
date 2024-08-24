@@ -54,6 +54,7 @@ class Timer(loader.Module):
         if r["s"]:
             secs = r["s"]
         t = secs + mins + hours
+        c = f"{hours}:{mins}:{secs}"
         pretime = "<i>{}:{}</i>"
 
         while t > -1:
