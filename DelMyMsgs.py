@@ -16,7 +16,7 @@ class DelMyMsgs(loader.Module):
     }
 
     async def purgecmd(self, message: Message):
-        """ [reply] - delete all your messages in current chat or only ones up to message you replayed to"""
+        """ [reply] - delete all your messages in current chat or only ones up to message you replyed to"""
         reply = await message.get_reply_message()
         is_last = False
 
