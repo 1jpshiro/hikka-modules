@@ -6,3 +6,4 @@ ChannelSaver
 Sender
 StickerStealer
 Timer
+DelMyMsgs
