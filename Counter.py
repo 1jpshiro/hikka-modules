@@ -60,7 +60,7 @@ class Counter(loader.Module):
 
     async def back(self, call: InlineCall):
         id = call.from_user.id
-        if id in self.db.get(NANE, "u"):
+        if id in self.db.get(NAME, "u"):
             return
 
         q = self.db.get(NAME, "c")
