@@ -70,9 +70,9 @@ class Autotime(loader.Module):
             name = re.sub(regex, "", name)
             name.replace("  ", "")
 
-        await self.client(UpdateProfileRequest(first_name=name))
-        await message.delete()
-        return
+            await self.client(UpdateProfileRequest(first_name=name))
+            await message.delete()
+            return
 
         if "{time}" not in args:
             await utils.answer(message, self.strings["no_time"])
@@ -97,9 +97,9 @@ class Autotime(loader.Module):
             bio = re.sub(regex, "", bio)
             bio.replace("  ", " ")
 
-        await self.client(UpdateProfileRequest(about=bio))
-        await message.delete()
-        return
+            await self.client(UpdateProfileRequest(about=bio))
+            await message.delete()
+            return
 
         if "{time}" not in args:
             await utils.answer(message, self.strings["no_time"])
