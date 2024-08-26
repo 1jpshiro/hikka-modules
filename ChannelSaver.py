@@ -111,7 +111,7 @@ class ChannelSaver(loader.Module):
         if is_author:
             author = item.post_author
         else:
-            author = None
+            author = "."
 
         _dict = {
             "media": media,
