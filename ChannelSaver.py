@@ -165,8 +165,9 @@ class ChannelSaver(loader.Module):
             is_noneCaption = i["is_noneCaption"]
             if not is_media and text == "§":
                 continue
-                
-            await self.client(UpdateProfileRequest(first_name=author))
+
+            if (await self.client.get_me()).first_name != author:
+                await self.client(UpdateProfileRequest(first_name=author))
             if is_media and not (media is None):
                 if is_noneCaption:
                     try:
@@ -195,7 +196,7 @@ class ChannelSaver(loader.Module):
                             text
                         ))
                     )
-                await asyncio.sleep(10)
+                await asyncio.sleep(20)
             else:
                 await message.client.send_message(
                     yourChannel,
@@ -204,6 +205,6 @@ class ChannelSaver(loader.Module):
                         text
                     ))
                 )
-                await asyncio.sleep(10)
+                await asyncio.sleep(20)
         await self.client(UpdateProfileRequest(first_name=initName))
         await utils.answer(message, "<emoji document_id=5233638613358486264>🚗</emoji> <b>Done</b>")
