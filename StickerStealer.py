@@ -84,9 +84,9 @@ class StickerStealer(loader.Module):
             await send.delete()
             await resp.delete()
 
-            a = self.checkType(reply, message)
+            _type = self.checkType(reply, message)
 
-            match a:
+            match _type:
                 case 1 | 2:
                     send = await bot.send_message(self.config['emoji'])
                 case 3:
@@ -117,20 +117,20 @@ class StickerStealer(loader.Module):
             await send.delete()
             await resp.delete()
 
-            match a:
+            match _type:
                 case 1:
                     emoji = reply.message
-                    _send = reply
+                    toSend = reply
                 case 2:
-                    tt = message.reply_to
+                    rep = message.reply_to
                     emoji = tt.quote_text
-                    t = tt.quote_entities[0].document_id
-                    _send = f"<emoji document_id={t}>{emoji}</emoji>"
+                    qoute_rep = rep.quote_entities[0].document_id
+                    toSend = f"<emoji document_id={quote_rep}>{emoji}</emoji>"
                 case _:
                     emoji = reply.media.document.attributes[1].alt
-                    _send = reply
+                    toSend = reply
 
-            send = await bot.send_message(_send)
+            send = await bot.send_message(toSend)
             resp = await bot.get_response()
             await asyncio.sleep(1)
             await send.delete()
