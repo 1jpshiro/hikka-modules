@@ -123,7 +123,7 @@ class StickerStealer(loader.Module):
                     toSend = reply
                 case 2:
                     rep = message.reply_to
-                    emoji = tt.quote_text
+                    emoji = rep.quote_text
                     qoute_rep = rep.quote_entities[0].document_id
                     toSend = f"<emoji document_id={quote_rep}>{emoji}</emoji>"
                 case _:
