@@ -2,7 +2,7 @@
 #
 # 🔒      Licensed under the GNU AGPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-# meta developer: 猫ちゃん(@shiro_hikka)
+# meta developer: @shiro_hikka
 
 from .. import loader, utils
 from telethon.tl.functions.channels import ToggleSignaturesRequest
@@ -19,7 +19,7 @@ import asyncio
 import io
 
 class ChannelSaver(loader.Module):
-    """Saves messages and media from private channels where it's forbidden"""
+    """猫ちゃん | Saves messages and media from private channels where it's forbidden"""
 
     strings = {
         "name": "ChannelSaver",
