@@ -2,14 +2,14 @@
 #
 # 🔒      Licensed under the GNU AGPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-# meta developer: 猫ちゃん(@shiro_hikka)
+# meta developer: @shiro_hikka
 
 from .. import utils, loader
 from telethon.tl.types import Message
 import asyncio
 
 class Sender(loader.Module):
-    """Massively sending message to some kind of chat"""
+    """猫ちゃん | Massively sending message to some kind of chat"""
 
     strings = {
         "name": "Sender"
