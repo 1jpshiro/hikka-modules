@@ -2,7 +2,7 @@
 #
 # 🔒      Licensed under the GNU AGPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-# meta developer: 猫ちゃん(@shiro_hikka)
+# meta developer: @shiro_hikka
 
 from .. import loader, utils
 from telethon.tl.functions.messages import EditChatAboutRequest
@@ -25,7 +25,7 @@ import asyncio
 import io
 
 class ChannelImitator(loader.Module):
-    """Imitates someone else's channel with your one\nMake sure your channel doesn't include photos before using a module otherwise others will be overlayed with them"""
+    """猫ちゃん | Imitates someone else's channel with your one\nMake sure your channel doesn't include photos before using a module otherwise others will be overlayed with them"""
 
     strings = {
         "name": "ChannelImitator",
