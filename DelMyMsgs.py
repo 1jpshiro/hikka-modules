@@ -2,14 +2,14 @@
 #
 # 🔒      Licensed under the GNU AGPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-# meta developer: 猫ちゃん(@shiro_hikka)
+# meta developer: @shiro_hikka
 
 from .. import loader, utils
 from telethon.tl.types import Message
 import asyncio
 
 class DelMyMsgs(loader.Module):
-    """Delete all your messages in current chat"""
+    """猫ちゃん | Delete all your messages in current chat"""
 
     strings = {
         "name": "DelMyMsgs"
