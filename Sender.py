@@ -5,7 +5,12 @@
 # meta developer: @shiro_hikka
 
 from .. import utils, loader
-from telethon.tl.types import Message
+from telethon.tl.types import (
+    Message,
+    Chat,
+    Channel,
+    User
+)
 import asyncio
 
 class Sender(loader.Module):
@@ -18,22 +23,20 @@ class Sender(loader.Module):
     async def sendToPm(self, send_list):
         async for i in self.client.iter_dialogs():
             entity = await self.client.get_entity(i.id)
-            if hasattr(entity, "first_name"):
+            if isinstance(entity, User):
                 send_list.append(i.id)
 
     async def sendToGroup(self, send_list):
         async for i in self.client.iter_dialogs():
             entity = await self.client.get_entity(i.id)
-            if hasattr(entity, "broadcast"):
-                if getattr(entity, "broadcast") is False:
-                    send_list.append(i.id)
+            if isinstance(entity, Chat) or isinstance(entity, Channel) and getattr(entity, "broadcast") is False:
+                send_list.append(i.id)
  
     async def sendToChannel(self, send_list):
         async for i in self.client.iter_dialogs():
             entity = await self.client.get_entity(i.id)
-            if hasattr(entity, "broadcast"):
-                if getattr(entity, "broadcast") is True:
-                    send_list.append(i.id)
+            if isinstance(entity, Channel) and getattr(entity, "broadcast") is True:
+                send_list.append(i.id)
 
     async def sendToAll(self, send_list):
         async for i in self.client.iter_dialogs():
@@ -50,7 +53,7 @@ class Sender(loader.Module):
         if not args:
             await utils.answer(message, "<i>Specify args</i>")
             return
-	
+ 
         q = await utils.answer(message, "<i>Sending...</i>")
 
         match args.split()[0]:
