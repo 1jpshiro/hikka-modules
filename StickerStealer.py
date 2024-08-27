@@ -2,14 +2,14 @@
 #
 # 🔒      Licensed under the GNU AGPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-# meta developer: 猫ちゃん(@shiro_hikka)
+# meta developer: @shiro_hikka
 
 from .. import loader, utils
 from telethon.tl.types import Message
 import asyncio
 
 class StickerStealer(loader.Module):
-    """Emoji/sticker stealer"""
+    """猫ちゃん | Emoji/sticker stealer"""
 
     strings = {
         "name": "StickerStealer",
