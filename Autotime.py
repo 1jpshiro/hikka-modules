@@ -2,7 +2,7 @@
 #
 # 🔒      Licensed under the GNU AGPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-# meta developer: 猫ちゃん(@shiro_hikka)
+# meta developer: @shiro_hikka
 
 import asyncio
 from telethon.tl.functions.account import UpdateProfileRequest
@@ -15,7 +15,7 @@ import datetime
 from .. import loader, utils
 
 class Autotime(loader.Module):
-    """Automatic stuff for your profile"""
+    """猫ちゃん | Automatic stuff for your profile"""
 
     strings = {
         "name": "Autotime",
