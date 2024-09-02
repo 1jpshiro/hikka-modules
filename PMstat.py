@@ -31,7 +31,7 @@ class PMstat(loader.Module):
         msgsList = []
 
         async for i in self.client.iter_messages(chat.id):
-            match "-p" in args:
+            match ("-p" in args):
                 case True:
                     if i.from_id != self.tg_id:
                         msgsList.append(i)
