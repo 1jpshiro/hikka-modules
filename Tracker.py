@@ -23,7 +23,8 @@ class Tracker(loader.Module):
         "change_status": "You just changed a status of tracking the user",
         "new_user": "You've successfully added a new user to track",
         "no_stat": "You're currently tracking no user",
-        "only_one": "You're currently tracking only one user"
+        "only_one": "You're currently tracking only one user",
+        "exists": "This user already exists in the track list, he's ID is {}"
     }
 
     async def client_ready(self, client, db):
@@ -116,6 +117,11 @@ class Tracker(loader.Module):
         except Exception:
             await utils.answer(message, self.strings["no_user"])
             return
+
+        for user in users:
+            if user[user.id]:
+                await utils.answer(message, self.strings["exists"].format(user))
+                return
 
         UID = user.id
         nick = f"{user.first_name} {user.last_name}" if user.last_name else user.first_name
@@ -222,3 +228,4 @@ class Tracker(loader.Module):
                 )
 
             self.db.set(NAME, "users", users)
+            self.db.set(NAME, "time", time.time())
