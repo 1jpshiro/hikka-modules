@@ -219,7 +219,7 @@ class Tracker(loader.Module):
             if users[user]["active"] is False:
                 continue
 
-            entity = await self.client.get_entity(user["user_id"])
+            entity = await self.client.get_entity(users[user]["user_id"])
             nick = f"{entity.first_name} {entity.last_name}" if entity.last_name else entity.first_name
             username = f"@{entity.username}" if entity.username else "<i>Empty</i>"
 
