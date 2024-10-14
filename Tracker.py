@@ -118,9 +118,9 @@ class Tracker(loader.Module):
             await utils.answer(message, self.strings["no_user"])
             return
 
-        for user in users:
+        for _user in users:
             if user[user.id]:
-                await utils.answer(message, self.strings["exists"].format(user))
+                await utils.answer(message, self.strings["exists"].format(_user))
                 return
 
         UID = user.id
