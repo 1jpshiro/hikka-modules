@@ -32,6 +32,8 @@ class Tracker(loader.Module):
             self.db.set(NAME, "status", False)
         if not self.db.get(NAME, "users"):
             self.db.set(NAME, "users", {})
+        if not self.db.get(NAME, "time"):
+            self.db.set(NAME, "time", t.time())
 
     async def showStat(self, call: InlineCall, ID, action) -> None:
         users = self.db.get(NAME, "users")
