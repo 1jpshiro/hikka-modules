@@ -54,6 +54,8 @@ class Tracker(loader.Module):
         ID = ID + 1 if action == "next" else ID - 1 if action == "previous" else ID
         if ID == 0:
             ID = len(users)
+        elif ID > len(users):
+            ID = 1
 
         match action:
             case "change_status":
