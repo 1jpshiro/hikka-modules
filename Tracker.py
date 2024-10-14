@@ -8,7 +8,7 @@ from .. import loader, utils
 from telethon.tl.types import Message
 from ..inline.types import InlineCall
 import datetime
-import asyncio
+import time
 
 NAME = "Tracker"
 
@@ -187,6 +187,10 @@ class Tracker(loader.Module):
         )
 
     async def watcher(self, message: Message):
+        diff = time.time() - self.db.get(NAME, "time")
+        if diff < 1800:
+            return
+
         users = self.db.get(NAME, "users")
         if not users:
             return
@@ -218,4 +222,3 @@ class Tracker(loader.Module):
                 )
 
             self.db.set(NAME, "users", users)
-            await asyncio.sleep(1800)
