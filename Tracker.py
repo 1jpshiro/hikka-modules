@@ -24,8 +24,19 @@ class Tracker(loader.Module):
         "new_user": "You've successfully added a new user to track",
         "no_stat": "You're currently tracking no user",
         "only_one": "You're currently tracking only one user",
-        "exists": "This user already exists in the track list, he's ID is {}"
+        "exists": "This user already exists in the track list, he's ID is {}",
+        "cfg": "Specify a time-span for the cooldown before next check"
     }
+
+    def __init__(self):
+        self.config = loader.ModuleConfig(
+            loader.ConfigValue(
+                "cooldown",
+                120,
+                lambda: self.strings["cfg"],
+                validator = loader.validators.Integer()
+            )
+        )
 
     async def client_ready(self, client, db):
         if not self.db.get(NAME, "status"):
@@ -43,6 +54,7 @@ class Tracker(loader.Module):
         if ID == 0:
             ID = len(users)
 
+        ID = str(ID)
         match action:
             case "change_status":
                 users[ID]["active"] = not(users[ID]["active"])
@@ -159,7 +171,7 @@ class Tracker(loader.Module):
             await utils.answer(message, self.strings["no_stat"])
             return
 
-        ID = 1
+        ID = "1"
         user = await self.client.get_entity(users[ID]["user_id"])
         status = "In progress" if users[ID]["active"] else "Inactive"
 
@@ -196,7 +208,7 @@ class Tracker(loader.Module):
 
     async def watcher(self, message: Message):
         diff = t.time() - self.db.get(NAME, "time")
-        if diff < 1800:
+        if diff < self.config["cooldown"]:
             return
 
         users = self.db.get(NAME, "users")
