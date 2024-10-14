@@ -1,50 +1,70 @@
+#              © Copyright 2024
+#
+# 🔒      Licensed under the GNU AGPLv3
+# 🌐 https://www.gnu.org/licenses/agpl-3.0.html
+# meta developer: @shiro_hikka
+
 from .. import loader, utils
 from telethon.tl.types import Message
 from ..inline.types import InlineCall
 import datetime
+import asyncio
+
+NAME = "Tracker"
 
 class Tracker(loader.Module):
+    """This module tracks the change history of an usernames and nicknames of the users you added to the track list"""
 
     strings = {
         "name": "Tracker",
-        "enabled": "The tracker was succesfully enabled",
-        "disabled": "Thr tracker was succesfully disabled",
-        "no_user": "Seems this user does not exist, try another ID/Username",
+        "enabled": "The tracker was successfully enabled",
+        "disabled": "The tracker was successfully disabled",
+        "no_user": "Seems this user doesn't exist, try another ID/Username",
         "change_status": "You just changed a status of tracking the user",
-        "new_user": "You've succesfully added new user to track",
-        "no_stat": "You're currently tracking no user"
+        "new_user": "You've successfully added a new user to track",
+        "no_stat": "You're currently tracking no user",
+        "only_one": "You're currently tracking only one user"
     }
 
     async def client_ready(self, client, db):
-        if self.db.get(__name__, "status") is None:
-            self.db.set(__name__, "status", False)
-        if self.db.get(__name__, "users") is None:
-            self.db.set(__name__, "users", {})
-
-    async def statStatus(self, call: InlineCall, ID) -> None:
-        users = self.db.get(__name__, "users")
-        users[ID]["active"] = not(users[ID]["active"])
-        self.db.set(__name__, "users", users)
-        await call.answer(self.strings["change_status"])
+        if not self.db.get(NAME, "status"):
+            self.db.set(NAME, "status", False)
+        if not self.db.get(NAME, "users"):
+            self.db.set(NAME, "users", {})
 
     async def showStat(self, call: InlineCall, ID, action) -> None:
-        users = self.db.get(__name__, "users")
-        ID = ID+1 if action == "next" else ID-1
+        users = self.db.get(NAME, "users")
         user = await self.client.get_entity(users[ID]["user_id"])
 
-        match users[ID]["active"]:
-            case True:
-                status = "In process"
-            case False:
-                status = "Inactive"
+        ID = ID + 1 if action == "next" else ID - 1 if action == "previous" else ID
+        if ID == 0:
+            ID = len(users)
+
+        match action:
+            case "change_status":
+                users[ID]["active"] = not(users[ID]["active"])
+                status = "In progress" if users[ID]["active"] else "Inactive"
+                await call.answer(self.strings["change_status"])
+
+            case "previous":
+                if len(users) == 1:
+                    await call.answer(self.strings["only_one"])
+                    return
+                status = "In progress" if users[ID]["active"] else "Inactive"
+
+            case "next":
+                if len(users) == 1:
+                    await call.answer(self.strings["only_one"])
+                    return
+                status = "In progress" if users[ID]["active"] else "Inactive"
+
+        self.db.set(NAME, "users", users)
 
         text = (
             f"<b>ID:</b> <a href='tg://user?id={user.id}'>{user.id}</a>\n"+
-            "\n"+
-            f"      <b>Nicknames</b>\n"+
+            "\n     <b>Nicknames</b>\n"+
             "\n".join(users[ID]["nicks"])+
-            "\n"+
-            "        <b>Usernames</b>\n"+
+            "\n\n     <b>Usernames</b>\n"+
             "\n".join(users[ID]["unames"])
         )
 
@@ -54,75 +74,92 @@ class Tracker(loader.Module):
                 [
                     {
                         "text": f"Tracking status: {status}",
-                        "callback": self.statStatus(ID)
+                        "callback": lambda call: self.showStat(call, ID, "change_status")
                     }
                 ],
                 [
                     {
                         "text": "Previous user",
-                        "callback": self.showStat(ID, "prev")
+                        "callback": lambda call: self.showStat(call, ID, "previous")
                     },
                     {
                         "text": "Next user",
-                        "callback": self.showStat(ID, "next")
+                        "callback": lambda call: self.showStat(call, ID, "next")
                     }
                 ]
             ]
         )
 
+    @loader.command(ru_doc = " - включить / выключить слежку")
     async def trackcmd(self, message: Message):
-        isEnDis = not(self.db.get(__name__, "status") is True)
-        self.db.set(__name__, "status")
+        """ - enable / disable the tracking"""
+        isEnDis = not(self.db.get(NAME, "status") is True)
+        self.db.set(NAME, "status", isEnDis)
+
         match isEnDis:
             case True:
                 await utils.answer(message, self.strings["enabled"])
+
             case False:
                 await utils.answer(message, self.strings["disabled"])
 
+    @loader.command(ru_doc = " <ID / Имя пользователя> - добавить нового пользователя в слежку")
     async def addtrackcmd(self, message: Message):
+        """ <ID / Username> - add a new user to track"""
         args = utils.get_args_raw(message)
+        users = self.db.get(NAME, "users")
+        ID = len(users) + 1
+
         try:
             user = await self.client.get_entity(int(args) if args.isdigit() else args)
-        except:
+
+        except Exception:
             await utils.answer(message, self.strings["no_user"])
             return
 
-        users = self.db.get(__name__, "users")
-        ID = int(len(users)+1)
         UID = user.id
+        nick = f"{user.first_name} {user.last_name}" if user.last_name else user.first_name
+        username = f"@{user.username}" if user.username else "<i>Empty</i>"
 
-        users[ID] = {}
+        time = datetime.datetime.now()
+        date = str(time.date()).split('-')
+        hms = str(time.time()).split(':')
 
-        users[ID]["nicks"] = [f"      {user.first_name+' '}{user.last_name if user.last_name else ''}"]
-        users[ID]["unames"] = [f"      {'@'+user.username if user.username else '<i>Empty</i>'}"]
-        users[ID]["active"] = True
-        users[ID]["user_id"] = UID
+        users[ID] = {
+            "nicks": [
+                "[{}.{}.{} - {}:{}:{}] {}".format(
+                    date[2], date[1], date[0], hms[0], hms[1], hms[2].split('.')[0], nick
+                )
+            ],
+            "unames": [
+                "[{}.{}.{} - {}:{}:{}] {}".format(
+                    date[2], date[1], date[0], hms[0], hms[1], hms[2].split('.')[0], username
+                )
+            ],
+            "active": True,
+            "user_id": UID
+        }
 
-        self.db.set(__name__, "users", users)
+        self.db.set(NAME, "users", users)
         await utils.answer(message, self.strings["new_user"])
 
+    @loader.command(ru_doc = " - посмотреть статистику по пользователям")
     async def trackstatcmd(self, message: Message):
-        users = self.db.get(__name__, "users")
-        if len(users) == 0:
+        """ - view the statistic about users you tracks"""
+        users = self.db.get(NAME, "users")
+        if not users:
             await utils.answer(message, self.strings["no_stat"])
             return
 
         ID = 1
         user = await self.client.get_entity(users[ID]["user_id"])
-
-        match users[ID]["active"]:
-            case True:
-                status = "In process"
-            case False:
-                status = "Inactive"
+        status = "In progress" if users[ID]["active"] else "Inactive"
 
         text = (
             f"<b>ID:</b> <a href='tg://user?id={user.id}'>{user.id}</a>\n"+
-            "\n"+
-            f"      <b>Nicknames</b>\n"+
+            "\n     <b>Nicknames</b>\n"+
             "\n".join(users[ID]["nicks"])+
-            "\n"+
-            "        <b>Usernames</b>\n"+
+            "\n\n     <b>Usernames</b>\n"+
             "\n".join(users[ID]["unames"])
         )
 
@@ -133,58 +170,52 @@ class Tracker(loader.Module):
                 [
                     {
                         "text": f"Tracking status: {status}",
-                        "callback": self.statStatus(ID)
+                        "callback": lambda call: self.showStat(call, ID, "change_status")
                     }
                 ],
                 [
                     {
                         "text": "Previous user",
-                        "callback": self.showStat(ID, "prev")
+                        "callback": lambda call: self.showStat(call, ID, "prev")
                     },
                     {
                         "text": "Next user",
-                        "callback": self.showStat(ID, "next")
+                        "callback": lambda call: self.showStat(call, ID, "next")
                     }
                 ]
             ]
         )
 
     async def watcher(self, message: Message):
-        users = self.db.get(__name__, "users")
-        if len(users) == 0:
+        users = self.db.get(NAME, "users")
+        if not users:
             return
 
-        for i in users:
-            if users[i]["active"] is False:
+        for user in users:
+            if users[user]["active"] is False:
                 continue
-            entity = await self.client.get_entity(i["user_id"])
-            nick = f"      {entity.first_name+' '}{entity.last_name if entity.last_name else ''}"
-            username = entity.username if entity.username else '<i>Empty</i>'
+
+            entity = await self.client.get_entity(user["user_id"])
+            nick = f"{entity.first_name} {entity.last_name}" if entity.last_name else entity.first_name
+            username = f"@{entity.username}" if entity.username else "<i>Empty</i>"
+
             time = datetime.datetime.now()
             date = str(time.date()).split('-')
             hms = str(time.time()).split(':')
 
-            if nick != users[i]["nicks"][-1]:
-                users[i]["nicks"].append("[{}.{}.{} - {}:{}:{}] {}".format(
-                    date[2],
-                    date[1],
-                    date[0],
-                    hms[0],
-                    hms[1],
-                    hms[2].split('.')[0],
-                    nick
-                ))
+            if nick != users[user]["nicks"][-1]:
+                users[user]["nicks"].append(
+                    "[{}.{}.{} - {}:{}:{}] {}".format(
+                        date[2], date[1], date[0], hms[0], hms[1], hms[2].split('.')[0], nick
+                    )
+                )
 
-            if username != users[i]["unames"][-1]:
-                users[i]["unames"].append("[{}.{}.{} - {}:{}:{}] {}".format(
-                    date[2],
-                    date[1],
-                    date[0],
-                    hms[0],
-                    hms[1],
-                    hms[2].split(',')[0],
-                    f"      @{username}"
-                ))
+            if username != users[user]["unames"][-1]:
+                users[user]["unames"].append(
+                    "[{}.{}.{} - {}:{}:{}] {}".format(
+                        date[2], date[1], date[0], hms[0], hms[1], hms[2].split(',')[0], username
+                    )
+                )
 
-            self.db.set(__name__, "users", users)
+            self.db.set(NAME, "users", users)
             await asyncio.sleep(1800)
