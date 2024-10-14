@@ -119,7 +119,7 @@ class Tracker(loader.Module):
             return
 
         for _user in users:
-            if users[_user][user.id]:
+            if users[_user]["user_id"] == user.id:
                 await utils.answer(message, self.strings["exists"].format(_user))
                 return
 
