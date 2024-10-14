@@ -9,6 +9,7 @@ from telethon.tl.types import Message
 from ..inline.types import InlineCall
 import datetime
 import time as t
+import re
 
 NAME = "Tracker"
 
@@ -54,7 +55,6 @@ class Tracker(loader.Module):
         if ID == 0:
             ID = len(users)
 
-        ID = str(ID)
         match action:
             case "change_status":
                 users[ID]["active"] = not(users[ID]["active"])
@@ -171,7 +171,7 @@ class Tracker(loader.Module):
             await utils.answer(message, self.strings["no_stat"])
             return
 
-        ID = "1"
+        ID = 1
         user = await self.client.get_entity(users[ID]["user_id"])
         status = "In progress" if users[ID]["active"] else "Inactive"
 
@@ -227,14 +227,14 @@ class Tracker(loader.Module):
             date = str(time.date()).split('-')
             hms = str(time.time()).split(':')
 
-            if nick != users[user]["nicks"][-1]:
+            if nick != re.sub(r"\[.*\]", "", users[user]["nicks"][-1]).strip():
                 users[user]["nicks"].append(
                     "[{}.{}.{} - {}:{}:{}] {}".format(
                         date[2], date[1], date[0], hms[0], hms[1], hms[2].split('.')[0], nick
                     )
                 )
 
-            if username != users[user]["unames"][-1]:
+            if username != re.sub(r"\[.*\]", "", users[user]["unames"][-1]).strip():
                 users[user]["unames"].append(
                     "[{}.{}.{} - {}:{}:{}] {}".format(
                         date[2], date[1], date[0], hms[0], hms[1], hms[2].split(',')[0], username
