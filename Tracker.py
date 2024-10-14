@@ -8,7 +8,7 @@ from .. import loader, utils
 from telethon.tl.types import Message
 from ..inline.types import InlineCall
 import datetime
-import time
+import time as t
 
 NAME = "Tracker"
 
@@ -193,7 +193,7 @@ class Tracker(loader.Module):
         )
 
     async def watcher(self, message: Message):
-        diff = time.time() - self.db.get(NAME, "time")
+        diff = t.time() - self.db.get(NAME, "time")
         if diff < 1800:
             return
 
@@ -228,4 +228,4 @@ class Tracker(loader.Module):
                 )
 
             self.db.set(NAME, "users", users)
-            self.db.set(NAME, "time", time.time())
+            self.db.set(NAME, "time", t.time())
