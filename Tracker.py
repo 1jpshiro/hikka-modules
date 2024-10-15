@@ -14,7 +14,7 @@ import re
 NAME = "Tracker"
 
 class Tracker(loader.Module):
-    """This module tracks the change history of an usernames and nicknames of the users you added to the track list"""
+    """猫ちゃん | This module tracks the change history of an usernames and nicknames of the users you added to the track list"""
 
     strings = {
         "name": "Tracker",
