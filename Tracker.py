@@ -49,6 +49,10 @@ class Tracker(loader.Module):
 
     async def showStat(self, call: InlineCall, ID, action) -> None:
         users = self.db.get(NAME, "users")
+        if not users:
+            await call.answer(self.strings["no_stat"])
+            return
+
         user = await self.client.get_entity(users[str(ID)]["user_id"])
 
         ID = ID + 1 if action == "next" else ID - 1 if action == "previous" else ID
