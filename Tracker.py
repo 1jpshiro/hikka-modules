@@ -200,7 +200,7 @@ class Tracker(loader.Module):
                 [
                     {
                         "text": "Previous user",
-                        "callback": lambda call: self.showStat(call, int(ID), "prev")
+                        "callback": lambda call: self.showStat(call, int(ID), "previous")
                     },
                     {
                         "text": "Next user",
