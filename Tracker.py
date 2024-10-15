@@ -57,7 +57,7 @@ class Tracker(loader.Module):
         elif ID > len(users):
             ID = 1
 
-        ID = int(ID)
+        ID = str(ID)
         match action:
             case "change_status":
                 users[ID]["active"] = not(users[ID]["active"])
@@ -92,17 +92,17 @@ class Tracker(loader.Module):
                 [
                     {
                         "text": f"Tracking status: {status}",
-                        "callback": lambda call: self.showStat(call, ID, "change_status")
+                        "callback": lambda call: self.showStat(call, int(ID), "change_status")
                     }
                 ],
                 [
                     {
                         "text": "Previous user",
-                        "callback": lambda call: self.showStat(call, ID, "previous")
+                        "callback": lambda call: self.showStat(call, int(ID), "previous")
                     },
                     {
                         "text": "Next user",
-                        "callback": lambda call: self.showStat(call, ID, "next")
+                        "callback": lambda call: self.showStat(call, int(ID), "next")
                     }
                 ]
             ]
@@ -127,7 +127,7 @@ class Tracker(loader.Module):
         args = utils.get_args_raw(message)
         users = self.db.get(NAME, "users")
         ID = len(users) + 1
-        ID = int(ID)
+        ID = str(ID)
 
         try:
             user = await self.client.get_entity(int(args) if args.isdigit() else args)
@@ -175,7 +175,7 @@ class Tracker(loader.Module):
             await utils.answer(message, self.strings["no_stat"])
             return
 
-        ID = 1
+        ID = "1"
         user = await self.client.get_entity(users[ID]["user_id"])
         status = "In progress" if users[ID]["active"] else "Inactive"
 
@@ -194,17 +194,17 @@ class Tracker(loader.Module):
                 [
                     {
                         "text": f"Tracking status: {status}",
-                        "callback": lambda call: self.showStat(call, ID, "change_status")
+                        "callback": lambda call: self.showStat(call, int(ID), "change_status")
                     }
                 ],
                 [
                     {
                         "text": "Previous user",
-                        "callback": lambda call: self.showStat(call, ID, "prev")
+                        "callback": lambda call: self.showStat(call, int(ID), "prev")
                     },
                     {
                         "text": "Next user",
-                        "callback": lambda call: self.showStat(call, ID, "next")
+                        "callback": lambda call: self.showStat(call, int(ID), "next")
                     }
                 ]
             ]
