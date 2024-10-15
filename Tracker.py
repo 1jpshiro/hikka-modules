@@ -57,6 +57,7 @@ class Tracker(loader.Module):
         elif ID > len(users):
             ID = 1
 
+        ID = int(ID)
         match action:
             case "change_status":
                 users[ID]["active"] = not(users[ID]["active"])
@@ -126,6 +127,7 @@ class Tracker(loader.Module):
         args = utils.get_args_raw(message)
         users = self.db.get(NAME, "users")
         ID = len(users) + 1
+        ID = int(ID)
 
         try:
             user = await self.client.get_entity(int(args) if args.isdigit() else args)
