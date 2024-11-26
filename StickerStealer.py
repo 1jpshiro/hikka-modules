@@ -24,12 +24,12 @@ class StickerStealer(loader.Module):
                 lambda: "Specify a name of your emoji pack",
             ),
             loader.ConfigValue(
-                "vs",
+                "video_sticker",
                 "vssaved",
                 lambda: "Specify a name if your video sticker pack"
             ),
             loader.ConfigValue(
-                "ss",
+                "static_sticker",
                 "sssaved",
                 lambda: "Specify a name of your static sticker pack"
             )
@@ -65,8 +65,8 @@ class StickerStealer(loader.Module):
         dict_cfg = {
             1: self.config["emoji"],
             2: self.config["emoji"],
-            3: self.config["vs"],
-            4: self.config["ss"]
+            3: self.config["video_sticker"],
+            4: self.config["static_sticker"]
         }
 
         dict_type = {
@@ -90,9 +90,9 @@ class StickerStealer(loader.Module):
                 case 1 | 2:
                     send = await bot.send_message(self.config['emoji'])
                 case 3:
-                    send = await bot.send_message(self.config['vs'])
+                    send = await bot.send_message(self.config['video_sticker'])
                 case 4:
-                    send = await bot.send_message(self.config['ss'])
+                    send = await bot.send_message(self.config['static_sticker'])
                 case _:
                     await utils.answer(
                         message,
@@ -107,7 +107,7 @@ class StickerStealer(loader.Module):
             if resp.text == "Не выбран набор стикеров.":
                 await utils.answer(
                     message,
-                    f"<i>Create {dict_type[a].lower()} pack with public name</i> <b>{dict_cfg[a]}</b>"
+                    f"<i>Create {dict_type[_type].lower()} pack with public name</i> <b>{dict_cfg[_type]}</b>"
                 )
                 await resp.delete()
                 await send.delete()
