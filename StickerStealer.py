@@ -144,5 +144,5 @@ class StickerStealer(loader.Module):
 
             await utils.answer(
                 message,
-                f"<b>{dict_type[a]} has been added</b>"
+                f"<b>{dict_type[_type]} has been added</b>"
             )
