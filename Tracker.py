@@ -62,23 +62,22 @@ class Tracker(loader.Module):
             ID = 1
 
         ID = str(ID)
-        match action:
-            case "change_status":
-                users[ID]["active"] = not(users[ID]["active"])
-                status = "In progress" if users[ID]["active"] else "Inactive"
-                await call.answer(self.strings["change_status"])
+        if action == "change_status":
+            users[ID]["active"] = not(users[ID]["active"])
+            status = "In progress" if users[ID]["active"] else "Inactive"
+            await call.answer(self.strings["change_status"])
 
-            case "previous":
-                if len(users) == 1:
-                    await call.answer(self.strings["only_one"])
-                    return
-                status = "In progress" if users[ID]["active"] else "Inactive"
+        elif action == "previous":
+            if len(users) == 1:
+                await call.answer(self.strings["only_one"])
+                return
+            status = "In progress" if users[ID]["active"] else "Inactive"
 
-            case "next":
-                if len(users) == 1:
-                    await call.answer(self.strings["only_one"])
-                    return
-                status = "In progress" if users[ID]["active"] else "Inactive"
+        elif action == "next":
+            if len(users) == 1:
+                await call.answer(self.strings["only_one"])
+                return
+            status = "In progress" if users[ID]["active"] else "Inactive"
 
         self.db.set(NAME, "users", users)
 
@@ -118,12 +117,11 @@ class Tracker(loader.Module):
         isEnDis = not(self.db.get(NAME, "status") is True)
         self.db.set(NAME, "status", isEnDis)
 
-        match isEnDis:
-            case True:
-                await utils.answer(message, self.strings["enabled"])
+        if isEnDis is True:
+            await utils.answer(message, self.strings["enabled"])
 
-            case False:
-                await utils.answer(message, self.strings["disabled"])
+        elif isEnDis is False:
+            await utils.answer(message, self.strings["enabled"])
 
     @loader.command(ru_doc = " <ID / Имя пользователя> - добавить нового пользователя в слежку")
     async def addtrackcmd(self, message: Message):
