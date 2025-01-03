@@ -86,22 +86,21 @@ class StickerStealer(loader.Module):
 
             _type = self.checkType(reply, message)
 
-            match _type:
-                case 1 | 2:
-                    send = await bot.send_message(self.config['emoji'])
-                case 3:
-                    send = await bot.send_message(self.config['video_sticker'])
-                case 4:
-                    send = await bot.send_message(self.config['static_sticker'])
-                case _:
-                    await utils.answer(
-                        message,
-                        self.strings["incorrect"]
-                    )
+            if any(_type == i for i in [1, 2]):
+                send = await bot.send_message(self.config['emoji'])
+            elif _type == 3:
+                send = await bot.send_message(self.config['video_sticker'])
+            elif _type == 4:
+                send = await bot.send_message(self.config['static_sticker'])
+            else:
+                await utils.answer(
+                    message,
+                    self.strings["incorrect"]
+                )
 
-                    resp = await bot.get_response()
-                    await resp.delete()
-                    return
+                resp = await bot.get_response()
+                await resp.delete()
+                return
 
             resp = await bot.get_response()
             if resp.text == "Не выбран набор стикеров.":
@@ -117,18 +116,17 @@ class StickerStealer(loader.Module):
             await send.delete()
             await resp.delete()
 
-            match _type:
-                case 1:
-                    emoji = reply.message
-                    toSend = reply
-                case 2:
-                    rep = message.reply_to
-                    emoji = rep.quote_text
-                    qoute_rep = rep.quote_entities[0].document_id
-                    toSend = f"<emoji document_id={quote_rep}>{emoji}</emoji>"
-                case _:
-                    emoji = reply.media.document.attributes[1].alt
-                    toSend = reply
+            if _type == 1:
+                emoji = reply.message
+                toSend = reply
+            elif _type == 2:
+                rep = message.reply_to
+                emoji = rep.quote_text
+                qoute_rep = rep.quote_entities[0].document_id
+                toSend = f"<emoji document_id={quote_rep}>{emoji}</emoji>"
+            else:
+                emoji = reply.media.document.attributes[1].alt
+                toSend = reply
 
             send = await bot.send_message(toSend)
             resp = await bot.get_response()
