@@ -56,15 +56,16 @@ class Sender(loader.Module):
  
         q = await utils.answer(message, "<i>Sending...</i>")
 
-        match args.split()[0]:
-            case "pm":
-                await self.sendToPm(send_list)
-            case "group":
-                await self.sendToGroup(send_list)
-            case "channel":
-                await self.sendToChannel(send_list)
-            case _:
-                await self.sendToAll(send_list)
+        if_var = args.split()[0]
+
+        if if_var == "pm":
+            await self.sendToPm(send_list)
+        elif if_var == "group":
+            await self.sendToGroup(send_list)
+        elif if_var == "channel":
+            await self.sendToChannel(send_list)
+        else:
+            await self.sendToAll(send_list)
 
         for i in send_list:
             try:
