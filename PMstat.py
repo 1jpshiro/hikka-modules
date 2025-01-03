@@ -31,13 +31,12 @@ class PMstat(loader.Module):
         msgsList = []
 
         async for i in self.client.iter_messages(chat.id):
-            match "-p" in args:
-                case True:
-                    if i.from_id != self.tg_id:
-                        msgsList.append(i)
-                case _:
-                    if i.from_id == self.tg_id:
-                        msgsList.append(i)
+            if "-p" in args:
+                if i.from_id != self.tg_id:
+                    msgsList.append(i)
+            else:
+                if i.from_id == self.tg_id:
+                    msgsList.append(i)
 
         await message.client.send_message(
             s,
