@@ -7,3 +7,4 @@ Sender
 StickerStealer
 Timer
 DelMyMsgs
+Tracker
