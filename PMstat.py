@@ -20,7 +20,7 @@ from .. import loader, utils
 from telethon.tl.types import Message
 
 @loader.tds
-class PMstat(loader.Module):
+class PMStat(loader.Module):
     """Defines how many messages did you and your chat partner write"""
 
     strings = {
