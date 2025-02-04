@@ -29,7 +29,7 @@ class StickerStealer(loader.Module):
         "incorrect": "<emoji document_id=5233657262106485430>🤨</emoji> It's not a sticker or emoji"
     }
 
-    def init(self):
+    def __init__(self):
         self.config = loader.ModuleConfig(
             loader.ConfigValue(
                 "Emoji pack",
