@@ -118,3 +118,8 @@ class Autotime(loader.Module):
 
         self.bio_on = True
         await message.delete()
+
+        while self.bio_on:
+            text = args.replace("{time}", self._time())
+            await self.client(UpdateProfileRequest(about=text))
+            await asyncio.sleep(180)
