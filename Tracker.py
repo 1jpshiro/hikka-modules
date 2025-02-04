@@ -14,7 +14,7 @@
 # meta banner: https://0x0.st/s/FIR0RnhUN5pZV5CZ6sNFEw/8KBz.jpg
 # ---------------------------------------------------------------------------------
 
-version = (1, 1, 0)
+__version__ = (1, 1, 0)
 
 from .. import loader, utils
 from telethon.tl.types import Message
