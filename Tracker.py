@@ -42,7 +42,7 @@ class Tracker(loader.Module):
         "cfg": "Specify a period of the cooldown between checks"
     }
 
-    def init(self):
+    def __init__(self):
         self.config = loader.ModuleConfig(
             loader.ConfigValue(
                 "Cooldown",
