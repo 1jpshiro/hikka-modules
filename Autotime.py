@@ -36,7 +36,7 @@ class Autotime(loader.Module):
         "cfg": "Positive or negative integer from -12 to 12 inclusively"
     }
 
-    def init(self):
+    def __init__(self):
         self.bio_on = False
         self.name_on = False
 
