@@ -2,7 +2,7 @@
 # Author: @shiro_hikka
 # Name: Auto modules updater
 # Description: Suggest to get updated if your version isn't up-to-date
-# Commands: toggleutd
+# Commands:
 # ---------------------------------------------------------------------------------
 #              © Copyright 2025
 #
