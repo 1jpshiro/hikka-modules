@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------------------
 # Author: @shiro_hikka
 # Name: Message Eraser
-# Description: Delete all your messages in the current chat
+# Description: Delete your messages in the current chat
 # Commands: purge, stoppurge
 # ---------------------------------------------------------------------------------
 #              © Copyright 2025
@@ -22,7 +22,7 @@ import asyncio
 
 @loader.tds
 class MessageEraser(loader.Module):
-    """Delete all your messages in the current chat"""
+    """Delete your messages in the current chat"""
 
     strings = {
         "name": "MessageEraser",
