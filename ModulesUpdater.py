@@ -93,7 +93,10 @@ class ModulesUpdater(loader.Module):
 
 
     async def watcher(self, message: Message):
-        if not message.sender.id == self.tg_id:
+        try:
+            if not message.sender.id == self.tg_id:
+                return
+        except:
             return
 
         messageSplit = message.text.split()
