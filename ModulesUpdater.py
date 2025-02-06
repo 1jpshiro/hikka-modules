@@ -52,10 +52,11 @@ class ModulesUpdater(loader.Module):
         if not path:
             self.db.set(__name__, "json", {})
 
-    def init(self, modList, loadedMods, versionList):
+    def init(self, modList, loadedMods, versionList, abs_path):
         modList = modList
         loadedMods = loadedMods
         versionList = versionList
+        abs_path = abs_path
 
         if loadedMods:
             any_exist = [
@@ -124,7 +125,7 @@ class ModulesUpdater(loader.Module):
             for i in abs_path.iterdir() if i.is_file()
         ]
 
-        self.init(modList, loadedMods, versionList)
+        self.init(modList, loadedMods, versionList, abs_path)
 
         if not self.config["Operation"]:
             return
