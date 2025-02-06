@@ -6,4 +6,3 @@ StickerStealer
 Timer
 MessageEraser
 Tracker
-ModulesUpdater
