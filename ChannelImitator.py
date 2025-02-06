@@ -170,7 +170,7 @@ class ChannelImitator(loader.Module):
         initName = self.me.first_name
         iterList = []
 
-        if "-save" in args:
+        if not "-save" in args:
             _photos = []
             entity = await self.client(GetFullChannelRequest(anotherChannel))
             title = entity.chats[0].title
