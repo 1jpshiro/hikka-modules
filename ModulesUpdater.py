@@ -19,6 +19,7 @@ __version__ = (1, 0, 0)
 from .. import loader, utils
 from telethon.tl.types import Message
 import re
+import asyncio
 import logging
 import ast
 import requests
@@ -196,6 +197,7 @@ class ModulesUpdater(loader.Module):
             )):
                 return
 
+            await asyncio.sleep(10)
             await message.edit(message.text+self.strings["text"].format(
                 currentVersion,
                 version,
