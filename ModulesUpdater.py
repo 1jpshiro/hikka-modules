@@ -94,7 +94,7 @@ class ModulesUpdater(loader.Module):
 
     async def watcher(self, message: Message):
         try:
-            if not message.sender.id == self.tg_id:
+            if message.sender.id != self.tg_id:
                 return
         except:
             return
