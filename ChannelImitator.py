@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------------------
 # Author: @shiro_hikka
 # Name: Channel Imitator
-# Description: Imitates someone else's channel with your one
+# Description: Imitates someone else's channel in yours
 # Commands: imitate
 # ---------------------------------------------------------------------------------
 #              © Copyright 2025
@@ -39,8 +39,8 @@ import io
 @loader.tds
 class ChannelImitator(loader.Module):
     """
-    Imitates someone else's channel with your one
-    Make assured your channel doesn't include avatars before using otherwise others will be overlayed with them
+    Imitates someone else's channel in yours
+    Make assured your channel doesn't include avatars before using otherwise stolen ones will be overlayed with them
     !!!If your account is experiencing a frequent floodwait limitations specify at least 150 in the Cooldown config!!!
     """
 
