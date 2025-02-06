@@ -66,7 +66,9 @@ class ModulesUpdater(loader.Module):
 
         if any_exist:
             for item in any_exist:
-                if not versionList[item]:
+                try:
+                    versionList[item]
+                except KeyError:
                     with open(f"{abs_path}/{item}.py", "r") as file:
                         file = file.read()
                         fileSplit = file.splitlines()
