@@ -70,7 +70,7 @@ class ModulesUpdater(loader.Module):
                 try:
                     versionList[item]
                 except KeyError:
-                    with open(f"{abs_path}/{item}.py", "r") as file:
+                    with open(f"{abs_path}/{item}_{self.tg_id}.py", "r") as file:
                         file = file.read()
                         fileSplit = file.splitlines()
 
@@ -154,7 +154,7 @@ class ModulesUpdater(loader.Module):
             if modName:
                 modLink = f"https://raw.githubusercontent.com/1jpshiro/hikka-modules/main/{modName}.py"
 
-            if not modName in loadedMods:
+            if not f"{modName}_{self.tg_id}.py" in loadedMods:
                 return
 
             response = requests.get(modLink)
