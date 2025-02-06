@@ -118,7 +118,8 @@ class ModulesUpdater(loader.Module):
         path = Path("~/Hikka/loaded_modules")
         abs_path = path.expanduser()
         loadedMods = [
-            str(i) for i in abs_path.iterdir() if i.is_file()
+            str(i).split('/')[-1]
+            for i in abs_path.iterdir() if i.is_file()
         ]
 
         self.init(modList, loadedMods, versionList)
