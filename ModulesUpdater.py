@@ -52,7 +52,7 @@ class ModulesUpdater(loader.Module):
         if not path:
             self.db.set(__name__, "json", {})
 
-    async def init(self, modList, loadedMods, versionList):
+    def init(self, modList, loadedMods, versionList):
         modList = modList
         loadedMods = loadedMods
         versionList = versionList
