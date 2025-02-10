@@ -14,7 +14,7 @@
 # meta banner: https://0x0.st/s/FIR0RnhUN5pZV5CZ6sNFEw/8KBz.jpg
 # ---------------------------------------------------------------------------------
 
-__version__ = (1, 1, 0)
+__version__ = (1, 2, 1)
 
 from .. import loader, utils
 from telethon.tl.types import Message
@@ -26,62 +26,89 @@ class MessageEraser(loader.Module):
 
     strings = {
         "name": "MessageEraser",
-        "enabled": "<emoji document_id=5289755247298747469>😒</emoji> It doesn't operates now anyway",
-        "disabled": "<emoji document_id=5237870268541582966>❄️</emoji> Operation status changed to disabled"
+        "enabled": "<emoji document_id=5289755247298747469>😒</emoji> It's not operational now anyway",
+        "disabled": "<emoji document_id=5237870268541582966>❄️</emoji> Operation status changed to disabled",
+        "interrupted": "<emoji document_id=5233717529087581343>😀</emoji> The deletion was interrupted because you changed your mind",
+        "none": "<emoji document_id=5291954734410767857>👁️</emoji> You didn't even intend to delete anything here, but anyway it's disabled now"
     }
 
     async def client_ready(self):
-        status = self.db.get(__name__, "status")
+        status = self.db.get(__name__, "status", None)
         if status is None:
-            self.db.set(__name__, "status", False)
+            self.db.set(__name__, "status", {})
 
 
     async def stoppurgecmd(self, message: Message):
-        """ Interupt the process of deletion"""
-        status = self.db.get(__name__, "status")
-        status = not status if status is True else status
+        """
+        Interrupt the deletion process
+        Use in the chat where you've previously started deletion
+        """
+        chat_id = utils.get_chat_id(message)
+        
+        status = self.db.get(__name__, "status", {})
+        _status = status.get(chat_id, None)
+        status[chat_id] = False
         self.db.set(__name__, "status", status)
 
-        if status is True:
+        if _status is True:
             await utils.answer(message, self.strings["disabled"])
-        else:
+        elif _status is False:
             await utils.answer(message, self.strings["enabled"])
+        else:
+            await utils.answer(message, self.strings["none"])
 
     async def purgecmd(self, message: Message):
         """
-        [reply] [10s / 10m / 10h / 10d] - delete all your messages in the current chat or only ones up to the message you replied to
-        Posible to do in a specific time
+        [reply] [10s / 10m / 10h / 10d] [-all] - delete all your messages in the current chat or only ones up to the message you replied to
+        Possible to do with a delay
+        -all - to delete messages from each topic if this is a forum otherwise flag'll just be ignored
         Example: 10h 3d
         """
         args = (utils.get_args_raw(message)).split()
-        time = 0
+        if "-all" in args:
+            is_each = True
+            args.remove("-all")
+        else:
+            is_each = False
+
+        reply = await message.get_reply_message()
+        chat_id = utils.get_chat_id(message)
+        delay = 0
+
+        is_last = False
+        is_forum = (await self.client.get_entity(chat_id)).forum
+
+        status = self.db.get(__name__, "status", {})
+        status[chat_id] = True
+        self.db.set(__name__, "status", status)
 
         if args:
             for i in args:
-                if len(i) < 2:
+                if len(i) < 2 or not i[:-1].isdigit():
                     continue
 
-                time += (
-                    int(i[:-1]) if i[-1] == "s"
-                    else int(i[:-1])*60 if i[-1] == "m"
-                    else int(i[:-1])*3600 if i[-1] == "h"
-                    else int(i[:-1])*86400 if i[-1] == "d"
-                    else 0
+                delay += (
+                    {"d": 86400, "h": 3600, "m": 60, "s": 1}.get(i[-1], 0) * i[:-1]
                 )
 
-        reply = await message.get_reply_message()
-        is_last = False
 
-        await asyncio.sleep(time)
-        self.db.set(__name__, "status", True)
+        await asyncio.sleep(delay)
 
-        async for i in self.client.iter_messages(message.chat.id):
-            if i.from_id == self.tg_id:
+        async for _message in self.client.iter_messages(chat_id):
+            status = self.db.get(__name__, "status", {})
+            if status.get(chat_id, None) is not True:
+                return await utils.answer(message, self.strings["interrupted"])
+
+            if is_forum and not is_each and utils.get_topic(message) != utils.get_topic(_message):
+                continue
+
+            if _message.from_id == self.tg_id:
                 if reply:
                     if is_last:
                         break
-                    if i.id == reply.id:
+                    if _message.id == reply.id:
                         is_last = True
-                await message.client.delete_messages(message.chat.id, [i.id])
+
+                await message.client.delete_messages(chat_id, [_message.id])
 
         await utils.answer(message, "<emoji document_id=5292186100004036291>🤩</emoji> Done")
