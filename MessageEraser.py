@@ -14,7 +14,7 @@
 # meta banner: https://0x0.st/s/FIR0RnhUN5pZV5CZ6sNFEw/8KBz.jpg
 # ---------------------------------------------------------------------------------
 
-__version__ = (1, 2, 1)
+__version__ = (1, 2, 2)
 
 from .. import loader, utils
 from telethon.tl.types import Message
@@ -94,6 +94,7 @@ class MessageEraser(loader.Module):
 
         await asyncio.sleep(delay)
 
+        batch = []
         async for _message in self.client.iter_messages(chat_id):
             status = self.db.get(__name__, "status", {})
             if status.get(chat_id, None) is not True:
@@ -102,6 +103,10 @@ class MessageEraser(loader.Module):
             if is_forum and not is_each and utils.get_topic(message) != utils.get_topic(_message):
                 continue
 
+            if len(batch) == 10:
+                await message.client.delete_messages(chat_id, batch)
+                batch = []
+
             if _message.from_id == self.tg_id:
                 if reply:
                     if is_last:
@@ -109,6 +114,10 @@ class MessageEraser(loader.Module):
                     if _message.id == reply.id:
                         is_last = True
 
-                await message.client.delete_messages(chat_id, [_message.id])
+                batch.append(_message.id)
+
+        if len(batch) != 0:
+            await message.client.delete_messages(chat_id, batch)
+            batch = []
 
         await utils.answer(message, "<emoji document_id=5292186100004036291>🤩</emoji> Done")
