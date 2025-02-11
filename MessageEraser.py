@@ -14,7 +14,7 @@
 # meta banner: https://0x0.st/s/FIR0RnhUN5pZV5CZ6sNFEw/8KBz.jpg
 # ---------------------------------------------------------------------------------
 
-__version__ = (1, 2, 2)
+__version__ = (1, 2, 3)
 
 from .. import loader, utils
 from telethon.tl.types import Message
@@ -44,7 +44,7 @@ class MessageEraser(loader.Module):
         Use in the chat where you've previously started deletion
         """
         chat_id = utils.get_chat_id(message)
-        
+
         status = self.db.get(__name__, "status", {})
         _status = status.get(chat_id, None)
         status[chat_id] = False
@@ -104,6 +104,7 @@ class MessageEraser(loader.Module):
                 continue
 
             if len(batch) == 10:
+                await asyncio.sleep(self.getRandomDelay)
                 await message.client.delete_messages(chat_id, batch)
                 batch = []
 
@@ -121,3 +122,15 @@ class MessageEraser(loader.Module):
             batch = []
 
         await utils.answer(message, "<emoji document_id=5292186100004036291>🤩</emoji> Done")
+
+
+    def getRandomDelay(self):
+        """A self-made function, creatively designed for generating a random float"""
+        rangeList = random.choice([(2.1, 3.9), (4.4, 6.7), (7.5, 9.1), (9.4, 10.4)])
+        randomRange = random.uniform(rangeList[0], rangeList[1])
+        randomSubRange = random.uniform(0.800, 1.399)
+
+        randomNum = randomRange * random.random() + (random.random() + 1.0) * randomSubRange
+        randomNum *= 3.8 if randomNum < 3 else 2.4 if randomNum < 5 else 1.3
+
+        return round(randomNum, 3)
