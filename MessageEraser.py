@@ -101,6 +101,9 @@ class MessageEraser(loader.Module):
             if status.get(chat_id, None) is not True:
                 return await utils.answer(message, self.strings["interrupted"])
 
+            if _message.from_id != self.tg_id:
+                continue
+
             if is_forum and not is_each and utils.get_topic(message) != utils.get_topic(_message):
                 continue
 
@@ -109,14 +112,13 @@ class MessageEraser(loader.Module):
                 await message.client.delete_messages(chat_id, batch)
                 batch = []
 
-            if _message.from_id == self.tg_id:
-                if reply:
-                    if is_last:
-                        break
-                    if _message.id == reply.id:
-                        is_last = True
+            if reply:
+                if is_last:
+                    break
+                if _message.id == reply.id:
+                    is_last = True
 
-                batch.append(_message.id)
+            batch.append(_message.id)
 
         if len(batch) != 0:
             await message.client.delete_messages(chat_id, batch)
